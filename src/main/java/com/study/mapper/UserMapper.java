@@ -1,21 +1,39 @@
 package com.study.mapper;
 
 import com.study.dto.UserDto;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
+@Mapper
 public interface UserMapper {
 
-    List<UserDto> selUserList();
+    /**
+     * 회원가입
+     */
+    int insUser(Map<String, Object> paramMap);
 
-    public List<UserDto> getUserById(String userId);
+    /**
+     * 회원목록 조회
+     */
+    List<Map<String, Object>> selUserList();
 
-    void insUser(UserDto userDto);
+    /**
+     * 회원정보 조회
+     */
+    Map<String, Object> selUserById(Map<String, Object> paramMap);
 
-    void updtUser(UserDto userDto);
+    /**
+     * 회원정보 수정
+     */
+    int updtUser(Map<String, Object> paramMap);
 
-    void delUser(String userId);
+    /**
+     * 회원정보 삭제
+     */
+    int delUser(Map<String, Object> paramMap);
 
 }

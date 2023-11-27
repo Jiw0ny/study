@@ -4,60 +4,68 @@ import com.study.dto.UserDto;
 import com.study.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping({"/user"})
 public class UserController {
-    @Autowired
+
     private UserService userService;
 
-    //회원목록
-    @GetMapping("/userList.do")
-    public String userList(@ModelAttribute UserDto userDto, Model model) {
-        List<UserDto> list = userService.selUserList();
-        model.addAttribute("userList", list);
-        return "userList";
+
+    @GetMapping("/join.do")
+    public ModelAndView join(){
+        ModelAndView mav = new ModelAndView("user/join");
+        return mav;
     }
 
-    //회원가입
-    @GetMapping("/insUser.do")
-    public String join() {
-        return "join"; //
-    }
-
-    //회원가입 처리
+    /**
+     * 회원가입 전송
+     */
     @PostMapping("/insUser.do")
-    public String insUser(@ModelAttribute UserDto userDto) {
-        userService.insUser(userDto);
-        return "redirect:/userList.do";
+    public Map<String, Object> insUser(@RequestParam Map<String, Object> paramMap){
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = userService.insUser(paramMap);
+        return resultMap;
     }
 
-    //회원수정
-    @GetMapping("/updtUser.do")
-    public String updtUser(@RequestParam Long userId, Model model) {
-        List<UserDto> user = userService.getUserById(userId);
-        model.addAttribute("user", user);
-        return "updt"; // updt.jsp 페이지로 이동
+    /**
+     * 회원목록 조회
+     */
+    @GetMapping("/selUserById.do")
+    public Map<String, Object> selUserById(@RequestParam Map<String, Object> paramMap){
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = userService.selUserById(paramMap);
+        return resultMap;
     }
 
-    //회원수정 처리
-    @PostMapping("/updtUser.do")
-    public String updtUser(@ModelAttribute UserDto userDto) {
-        userService.updtUser(userDto);
-        return "redirect:/userList.do";
+    /**
+     * 회원정보 수정
+     */
+    @RequestMapping(value = "/updtUser.do", method = RequestMethod.PATCH)
+    public Map<String, Object> updtUser(@RequestBody Map<String, Object> paramMap) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = userService.updtUser(paramMap);
+        return resultMap;
     }
 
-    @GetMapping("/delUser/{userId}")
-    public String delUser(@PathVariable String userId) {
-        userService.delUser(userId);
-        return "redirect:/userList.do";
+
+    /**
+     * 회원 삭제
+     */
+    @RequestMapping(value = "/delUser.do", method = RequestMethod.DELETE)
+    public Map<String, Object> delUser(@RequestParam Map<String, Object> paramMap) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = userService.delUser(paramMap);
+        return resultMap;
     }
 }

@@ -3,30 +3,44 @@
 <mapper namespace="com.study.mapper.UserMapper">
 
     <!-- 회원 정보 조회 -->
-    <select id="selUserList" resultType="UserDto">
-        SELECT * FROM user
+    <select id="selUserList" resultType="map">
+        select userId,
+               userName,
+               userEmail
+        from user
     </select>
 
-    <select id="getUserById" resultType="UserDto">
-        SELECT * FROM user WHERE user_id = #{userId}
+    <select id="selUserById" parameterType="map" resultType="map">
+        select userId,
+               userName,
+               userEmail
+        from user WHERE user_id = #{userId}
     </select>
 
     <!-- 회원 정보 등록 -->
-    <insert id="insUser" parameterType="UserDto">
-        INSERT INTO user (user_id, user_pw, user_name, user_email)
-        VALUES (#{userId}, #{userPw}, #{userName}, #{userEmail})
+    <insert id="insUser" parameterType="map">
+        insert into user
+            (user_id,
+             user_pw,
+             user_name,
+             user_email)
+        values (#{userId},
+                #{userPw},
+                #{userName},
+                #{userEmail})
     </insert>
 
     <!-- 회원 정보 수정 -->
-    <update id="updtUser" parameterType="UserDto" >
-        UPDATE user
-        SET user_pw = #{userPw}, user_name = #{userName}, user_email = #{userEmail}
-        WHERE user_id = #{userId}
+    <update id="updtUser" parameterType="map">
+        update user
+        set user_name = #{userName}, user_email = #{userEmail}
+        where user_id = #{userId}
     </update>
 
     <!-- 회원 정보 삭제 -->
     <delete id="delUser">
-        DELETE FROM user WHERE user_id = #{userId}
+        delete from  user
+               where user_id = #{userId}
     </delete>
 
 </mapper>

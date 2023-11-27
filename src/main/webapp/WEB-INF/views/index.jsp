@@ -12,10 +12,8 @@
 </head>
 <body>
 <div>
-    <a href="/user/insUser">회원가입</a>
-    <a href="/user/updtUser">회원수정</a>
-    <a href="/user/userList">회원목록</a>
-    <a href="/user/delUser/">회원목록</a>
+    <button><a href="/user/join.do">회원가입</a></button>
+    <button><a href="/user/userList.do">회원목록</a></button>
 </div>
 </body>
 </html>
